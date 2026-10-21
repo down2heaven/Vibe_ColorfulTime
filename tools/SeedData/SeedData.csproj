@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>SimWorkbench.SeedData</RootNamespace>
+    <AssemblyName>SimWorkbench.SeedData</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SimWorkbench.Core\SimWorkbench.Core.csproj" />
+    <ProjectReference Include="..\..\src\SimWorkbench.Data\SimWorkbench.Data.csproj" />
+  </ItemGroup>
+</Project>

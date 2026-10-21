@@ -1,0 +1,25 @@
+# 构建产物与本地数据
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# 本地测试数据与临时目录
+_testdata/
+_testdata*/
+tools/SeedData/bin/
+tools/SeedData/obj/
+
+# 截图与 UI 自动化临时输出（保留 docs/screenshots）
+docs/shots/
+docs/ui-test/
+
+# 运行日志 / 崩溃日志
+*.log
+crash.log
+app.log
+
+# 备份与导出文件
+backups/
+*.backup.json
