@@ -1,0 +1,22 @@
+<Page
+    x:Class="SimWorkbench.App.Pages.WorkbenchPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="28,20,28,28">
+        <StackPanel Spacing="16">
+            <StackPanel Spacing="2">
+                <TextBlock x:Name="GreetingText" Style="{StaticResource PageTitleTextStyle}" />
+                <TextBlock x:Name="DateText" Style="{StaticResource CaptionTextStyle}" />
+            </StackPanel>
+
+            <!-- Windows Phone 风格强调色磁贴：常用操作 -->
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
+                          HorizontalScrollMode="Enabled" VerticalScrollMode="Disabled">
+                <StackPanel x:Name="TilesHost" Orientation="Horizontal" Spacing="10" />
+            </ScrollViewer>
+
+            <StackPanel x:Name="CardsHost" Spacing="16" />
+        </StackPanel>
+    </ScrollViewer>
+</Page>

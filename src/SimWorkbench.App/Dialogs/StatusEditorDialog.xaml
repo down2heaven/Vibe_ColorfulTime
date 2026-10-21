@@ -1,0 +1,31 @@
+<ContentDialog
+    x:Class="SimWorkbench.App.Dialogs.StatusEditorDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="任务状态"
+    PrimaryButtonText="保存"
+    CloseButtonText="取消"
+    DefaultButton="Primary"
+    PrimaryButtonClick="OnPrimaryButtonClick">
+
+    <StackPanel Width="420" Spacing="2">
+        <TextBlock x:Name="ScopeText" Style="{StaticResource CaptionTextStyle}" />
+        <TextBlock Text="状态名称（必填）" Style="{StaticResource FieldLabelTextStyle}" />
+        <TextBox x:Name="NameBox" PlaceholderText="例如：等待反馈" />
+
+        <TextBlock Text="状态颜色" Style="{StaticResource FieldLabelTextStyle}" />
+        <Grid x:Name="PaletteGrid" RowSpacing="6" ColumnSpacing="6" />
+
+        <TextBlock Text="预览" Style="{StaticResource FieldLabelTextStyle}" />
+        <Border Style="{StaticResource InsetCardBorderStyle}" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Border x:Name="PreviewDot" Width="12" Height="12" CornerRadius="6"
+                        VerticalAlignment="Center" Background="#8A8A8A" />
+                <TextBlock x:Name="PreviewText" Text="状态名称" VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+
+        <TextBlock x:Name="ErrorText" Foreground="#D13438" Visibility="Collapsed"
+                   TextWrapping="Wrap" Margin="0,10,0,0" />
+    </StackPanel>
+</ContentDialog>
