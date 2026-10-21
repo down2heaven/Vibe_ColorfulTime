@@ -23,3 +23,12 @@ app.log
 # 备份与导出文件
 backups/
 *.backup.json
+
+# 发布产物与本地产物打包
+dist/
+*.zip
+
+# 版本发布辅助文件
+.pr_number
+.release_id
+.release_upload_url
