@@ -1,0 +1,45 @@
+<Page
+    x:Class="SimWorkbench.App.Pages.CalendarPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Padding="24,16,24,20" RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+            <Border Width="6" Height="28" CornerRadius="3" Background="#7A3FD1" VerticalAlignment="Center" />
+            <TextBlock Text="日历" Style="{StaticResource PageTitleTextStyle}" VerticalAlignment="Center" />
+            <TextBlock x:Name="MonthText" Style="{StaticResource CaptionTextStyle}"
+                       VerticalAlignment="Bottom" Margin="2,0,0,6" />
+            <Button Content="‹ 上月" Click="OnPreviousMonth" />
+            <Button Content="今天" Click="OnToday" />
+            <Button Content="下月 ›" Click="OnNextMonth" />
+            <Button Content="新建任务" Style="{StaticResource AccentButtonStyle}" Click="OnNewTask" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="320" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource CardBorderStyle}" Padding="10">
+                <Grid x:Name="CalendarGrid" RowSpacing="2" ColumnSpacing="2" />
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource CardBorderStyle}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="DayPanel" Spacing="8">
+                        <TextBlock x:Name="DayTitleText" Style="{StaticResource SectionTitleTextStyle}" />
+                        <TextBlock Style="{StaticResource CaptionTextStyle}"
+                                   Text="点击日期查看当天安排；点击条目可直接编辑任务。" />
+                        <StackPanel x:Name="DayItemsHost" Spacing="4" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

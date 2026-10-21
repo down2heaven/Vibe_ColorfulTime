@@ -1,0 +1,88 @@
+<Page
+    x:Class="SimWorkbench.App.Pages.DailySummaryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SimWorkbench.App.ViewModels">
+
+    <Grid Padding="24,16,24,20" RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+            <Border Width="6" Height="28" CornerRadius="3" Background="#12A5A5" VerticalAlignment="Center" />
+            <TextBlock Text="每日总结" Style="{StaticResource PageTitleTextStyle}" VerticalAlignment="Center" />
+            <Button Content="‹ 上一天" Click="OnPreviousDay" />
+            <Button Content="今天" Click="OnToday" />
+            <Button Content="下一天 ›" Click="OnNextDay" />
+            <CalendarDatePicker x:Name="DateSelector" Width="160" DateChanged="OnDateChanged" />
+            <Button Content="保存" Style="{StaticResource AccentButtonStyle}" Click="OnSave" />
+            <TextBlock x:Name="SaveStatusText" Style="{StaticResource CaptionTextStyle}"
+                       VerticalAlignment="Center" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="300" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource CardBorderStyle}" Padding="16">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="2">
+                        <TextBlock Text="今日总结" Style="{StaticResource SectionTitleTextStyle}" />
+                        <TextBox x:Name="SummaryBox" AcceptsReturn="True" TextWrapping="Wrap"
+                                 MinHeight="80" PlaceholderText="今天的主要进展、结论或想法（可留空）" />
+
+                        <TextBlock Text="今日完成事项" Style="{StaticResource SectionTitleTextStyle}" Margin="0,14,0,0" />
+                        <TextBox x:Name="CompletedBox" AcceptsReturn="True" TextWrapping="Wrap"
+                                 MinHeight="64" PlaceholderText="完成了哪些计算、后处理、交付或一般事项" />
+
+                        <TextBlock Text="遇到的问题及处理过程" Style="{StaticResource SectionTitleTextStyle}" Margin="0,14,0,0" />
+                        <TextBox x:Name="ProblemsBox" AcceptsReturn="True" TextWrapping="Wrap"
+                                 MinHeight="64" PlaceholderText="异常现象、发散、报错以及处理方式" />
+
+                        <TextBlock Text="待处理事项" Style="{StaticResource SectionTitleTextStyle}" Margin="0,14,0,0" />
+                        <TextBox x:Name="PendingBox" AcceptsReturn="True" TextWrapping="Wrap"
+                                 MinHeight="56" PlaceholderText="还没做完、需要继续跟进的内容" />
+
+                        <TextBlock Text="明日计划" Style="{StaticResource SectionTitleTextStyle}" Margin="0,14,0,0" />
+                        <TextBox x:Name="TomorrowBox" AcceptsReturn="True" TextWrapping="Wrap"
+                                 MinHeight="56" PlaceholderText="明天准备推进的任务或安排" />
+
+                        <TextBlock Text="关联当日任务" Style="{StaticResource SectionTitleTextStyle}" Margin="0,16,0,4" />
+                        <TextBlock Style="{StaticResource CaptionTextStyle}"
+                                   Text="勾选当天相关的任务；这里只建立关联，不会修改任务状态。" />
+                        <StackPanel x:Name="LinkedTasksHost" Spacing="2" Margin="0,4,0,0" />
+
+                        <TextBlock Text="关联 Checklist" Style="{StaticResource SectionTitleTextStyle}" Margin="0,16,0,4" />
+                        <Button Content="选择关联清单" Click="OnLinkChecklists" HorizontalAlignment="Left" />
+                        <StackPanel x:Name="LinkedChecklistHost" Spacing="2" Margin="0,6,0,0" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource CardBorderStyle}">
+                <Grid RowSpacing="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="历史记录" Style="{StaticResource SectionTitleTextStyle}" />
+                    <ListView Grid.Row="1" x:Name="HistoryList" SelectionMode="Single"
+                              SelectionChanged="OnHistorySelected">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:SummaryRow">
+                                <StackPanel Spacing="2" Padding="0,4">
+                                    <TextBlock Text="{x:Bind DateText}" FontSize="13" />
+                                    <TextBlock Text="{x:Bind Preview}" Style="{StaticResource CaptionTextStyle}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>
