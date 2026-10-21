@@ -1,0 +1,123 @@
+<Page
+    x:Class="SimWorkbench.App.Pages.TasksPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SimWorkbench.App.ViewModels">
+
+    <Grid Padding="24,16,24,20" RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- 标题与主要操作（Windows Phone 风格：彩色方块 + 轻量大标题） -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+            <Border Width="6" Height="28" CornerRadius="3" Background="#2B88D8"
+                    VerticalAlignment="Center" />
+            <TextBlock Text="任务" Style="{StaticResource PageTitleTextStyle}" VerticalAlignment="Center" />
+            <TextBlock x:Name="CountText" Style="{StaticResource CaptionTextStyle}"
+                       VerticalAlignment="Bottom" Margin="2,0,0,6" />
+            <Button Content="新建任务" Style="{StaticResource AccentButtonStyle}" Click="OnNewTask" />
+            <Button Content="新建仿真任务" Click="OnNewSimulationTask" />
+            <Button Content="周期任务" Click="OnManageRecurrences" />
+            <Button Content="刷新" Click="OnRefreshClick" />
+        </StackPanel>
+
+        <!-- 筛选与搜索 -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+            <TextBox x:Name="SearchBox" PlaceholderText="搜索名称 / 备注 / 算例 / 标签"
+                     Width="230" TextChanged="OnSearchChanged" />
+            <ComboBox x:Name="TypeFilter" Width="120" SelectedIndex="0" SelectionChanged="OnFilterSelectionChanged">
+                <ComboBoxItem Content="全部类型" />
+                <ComboBoxItem Content="一般任务" />
+                <ComboBoxItem Content="仿真任务" />
+            </ComboBox>
+            <ComboBox x:Name="StatusFilter" Width="140" SelectedIndex="0" SelectionChanged="OnFilterSelectionChanged" />
+            <ComboBox x:Name="PriorityFilter" Width="110" SelectedIndex="0" SelectionChanged="OnFilterSelectionChanged">
+                <ComboBoxItem Content="全部优先级" />
+                <ComboBoxItem Content="普通" />
+                <ComboBoxItem Content="高" />
+                <ComboBoxItem Content="紧急" />
+            </ComboBox>
+            <ComboBox x:Name="SortFilter" Width="140" SelectedIndex="0" SelectionChanged="OnFilterSelectionChanged">
+                <ComboBoxItem Content="按交付时间" />
+                <ComboBoxItem Content="按创建时间" />
+                <ComboBoxItem Content="按优先级" />
+                <ComboBoxItem Content="按名称" />
+            </ComboBox>
+            <CheckBox x:Name="OnlyOpenBox" Content="仅未完成" Click="OnFilterClick" />
+            <CheckBox x:Name="OverdueBox" Content="仅逾期" Click="OnFilterClick" />
+        </StackPanel>
+
+        <Grid Grid.Row="2" ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="368" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource CardBorderStyle}" Padding="8">
+                <ListView x:Name="TaskList" SelectionMode="Single" SelectionChanged="OnTaskSelected"
+                          IsItemClickEnabled="False">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:TaskRow">
+                            <Grid RowSpacing="3" Padding="4,6">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!-- 第一行：标题 + 优先级 + 交付提示 -->
+                                <Grid Grid.Row="0" ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Width="12" Height="12" CornerRadius="6"
+                                            Background="{x:Bind StatusBrush}" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="1" Text="{x:Bind Title}"
+                                               Style="{StaticResource TaskRowTitleStyle}" />
+                                    <TextBlock Grid.Column="2" Text="{x:Bind PriorityText}"
+                                               Visibility="{x:Bind PriorityVisibility}"
+                                               Foreground="{x:Bind PriorityBrush}" FontSize="11"
+                                               VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="3" Text="{x:Bind DueText}" FontSize="12"
+                                               Foreground="{x:Bind DueBrush}" VerticalAlignment="Center" />
+                                </Grid>
+
+                                <!-- 第二行：类型/状态/时间/标签 -->
+                                <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="10">
+                                    <TextBlock Text="{x:Bind Subtitle}" Style="{StaticResource CaptionTextStyle}" />
+                                    <TextBlock Text="{x:Bind StatusName}" Foreground="{x:Bind StatusBrush}"
+                                               FontSize="12" />
+                                    <TextBlock Text="{x:Bind TimeText}" Visibility="{x:Bind TimeVisibility}"
+                                               Style="{StaticResource CaptionTextStyle}" />
+                                    <TextBlock Text="{x:Bind TagText}" Visibility="{x:Bind TagVisibility}"
+                                               Style="{StaticResource CaptionTextStyle}" />
+                                    <TextBlock Text="{x:Bind RecurrenceText}" Visibility="{x:Bind RecurrenceVisibility}"
+                                               Style="{StaticResource CaptionTextStyle}" />
+                                </StackPanel>
+
+                                <!-- 第三行：加粗的状态颜色条，放在文字下方 -->
+                                <Border Grid.Row="2" Height="6" CornerRadius="3"
+                                        Background="{x:Bind StatusBrush}" Margin="0,2,0,0" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource CardBorderStyle}" Padding="0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="DetailPanel" Padding="16" Spacing="8">
+                        <TextBlock Style="{StaticResource CaptionTextStyle}"
+                                   Text="在左侧选择一个任务查看详情。双击或点击“编辑”可以修改任务。" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>

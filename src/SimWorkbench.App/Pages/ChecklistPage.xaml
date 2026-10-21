@@ -1,0 +1,99 @@
+<Page
+    x:Class="SimWorkbench.App.Pages.ChecklistPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vm="using:SimWorkbench.App.ViewModels">
+
+    <Grid Padding="24,16,24,20" RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+            <Border Width="6" Height="28" CornerRadius="3" Background="#2EA043" VerticalAlignment="Center" />
+            <TextBlock Text="Checklist" Style="{StaticResource PageTitleTextStyle}" VerticalAlignment="Center" />
+            <TextBlock x:Name="CountText" Style="{StaticResource CaptionTextStyle}"
+                       VerticalAlignment="Bottom" Margin="2,0,0,6" />
+            <Button Content="新建清单" Style="{StaticResource AccentButtonStyle}" Click="OnNewChecklist" />
+            <Button Content="刷新" Click="OnRefresh" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="290" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Style="{StaticResource CardBorderStyle}" Padding="8">
+                <ListView x:Name="ChecklistList" SelectionMode="Single" SelectionChanged="OnChecklistSelected">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ChecklistProgressRow">
+                            <StackPanel Spacing="3" Padding="0,5">
+                                <TextBlock Text="{x:Bind Name}" Style="{StaticResource TaskRowTitleStyle}" />
+                                <TextBlock Text="{x:Bind CategoryText}" Style="{StaticResource CaptionTextStyle}" />
+                                <ProgressBar Minimum="0" Maximum="100" Value="{x:Bind ProgressPercent}" Height="4" />
+                                <TextBlock Text="{x:Bind ProgressText}" Style="{StaticResource CaptionTextStyle}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Border>
+
+            <Border Grid.Column="1" Style="{StaticResource CardBorderStyle}" Padding="16">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="2">
+                        <TextBlock x:Name="EditorTitleText" Style="{StaticResource SectionTitleTextStyle}"
+                                   Text="选择或新建一个清单" />
+
+                        <StackPanel x:Name="EditorPanel" Spacing="2">
+                            <Grid ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="清单名称（必填）" Style="{StaticResource FieldLabelTextStyle}" />
+                                    <TextBox x:Name="NameBox" PlaceholderText="例如：仿真前检查" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="分类" Style="{StaticResource FieldLabelTextStyle}" />
+                                    <ComboBox x:Name="CategoryBox" IsEditable="True" HorizontalAlignment="Stretch" />
+                                </StackPanel>
+                            </Grid>
+
+                            <TextBlock Text="备注" Style="{StaticResource FieldLabelTextStyle}" />
+                            <TextBox x:Name="NoteBox" PlaceholderText="用途说明（可留空）" />
+
+                            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,10,0,0">
+                                <Button Content="保存清单信息" Style="{StaticResource AccentButtonStyle}"
+                                        Click="OnSaveHeader" />
+                                <Button Content="删除清单" Click="OnDeleteChecklist" />
+                                <TextBlock x:Name="SaveStatusText" Style="{StaticResource CaptionTextStyle}"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+
+                            <TextBlock Text="检查项" Style="{StaticResource SectionTitleTextStyle}" Margin="0,16,0,0" />
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="NewItemBox" PlaceholderText="输入新的检查项后回车或点击添加" />
+                                <Button Grid.Column="1" Content="添加" Style="{StaticResource AccentButtonStyle}"
+                                        Click="OnAddItem" />
+                            </Grid>
+
+                            <StackPanel x:Name="ItemsHost" Spacing="4" Margin="0,8,0,0" />
+
+                            <TextBlock Text="关联对象" Style="{StaticResource SectionTitleTextStyle}" Margin="0,16,0,0" />
+                            <TextBlock Style="{StaticResource CaptionTextStyle}"
+                                       Text="清单可被任务、每日总结或主题日志关联；也可在那些页面中直接选择清单。" />
+                            <StackPanel x:Name="LinksHost" Spacing="2" Margin="0,4,0,0" />
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</Page>
