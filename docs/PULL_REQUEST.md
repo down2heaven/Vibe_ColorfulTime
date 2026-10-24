@@ -46,19 +46,16 @@
 
 ### 5. 测试与工具
 
-- `tests/SimWorkbench.SmokeTest`：数据层 92 项端到端断言（含重启持久化与备份导入）。
-- `tools/SeedData`：演示数据生成器（也可 `--stats` 输出数据库统计）。
-- `tools/ui-smoke.ps1`：31 项 UI 自动化端到端验证（真实点击 + 数据库比对 + 截图）。
-- `tools/screenshot-pages.ps1`、`tools/dev-run.ps1`：截图与本地开发启动。
+- 自检工具（数据层 SmokeTest、UI 自动化、演示数据、截图脚本）保留在开发者本地环境，不随仓库分发。
 
 ## 测试计划
 
 | 验证 | 命令 | 预期 |
 | --- | --- | --- |
 | 构建 | `dotnet build SimWorkbench.sln` | 0 警告 0 错误 |
-| 数据层自检 | `tests\SimWorkbench.SmokeTest\bin\Debug\net8.0\SimWorkbench.SmokeTest.exe` | 通过 92 项，失败 0 项 |
-| UI 端到端 | `powershell -File tools\ui-smoke.ps1` | 通过 31 项，失败 0 项 |
-| 手工验收 | 用 `tools\SeedData` 生成演示数据后启动程序，按 `docs/P0_CHECKLIST.md` 逐条检查 | 截图见 `docs/screenshots/` |
+| 数据层自检 | 本地 SmokeTest（不随仓库分发） | 通过 92 项，失败 0 项 |
+| UI 端到端 | 本地 UI 自动化（不随仓库分发） | 通过 31 项，失败 0 项 |
+| 手工验收 | 启动程序后按 `docs/P0_CHECKLIST.md` 逐条检查 | 截图见 `docs/screenshots/` |
 
 验收标准与实现的逐条对照见 `docs/P0_CHECKLIST.md`。
 

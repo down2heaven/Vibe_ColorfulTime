@@ -23,11 +23,8 @@ dotnet build src\SimWorkbench.App\SimWorkbench.App.csproj -p:Platform=x64
 # 运行
 .\src\SimWorkbench.App\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\SimWorkbench.exe
 
-# 构建并启动（自动清理旧进程）
-powershell -ExecutionPolicy Bypass -File tools\dev-run.ps1
-
 # 指定便携数据目录
-.\...\SimWorkbench.exe --data-dir D:\WorkbenchData
+.\...\SimWorkbench.exe --data-dir <数据目录>
 ```
 
 ## 数据与日志
@@ -38,21 +35,10 @@ powershell -ExecutionPolicy Bypass -File tools\dev-run.ps1
 - 目录不可写时自动回退：LocalAppData → 文档 → 程序目录 `data\`
 - 测试时可用 `--data-dir` 或 `SIMWORKBENCH_DATA_DIR` 指向独立目录，避免污染真实数据
 
-## 测试体系
+## 测试体系（本地工具，不随仓库分发）
 
-1. **数据层自检** `tests/SimWorkbench.SmokeTest`
-   - 使用临时数据库，覆盖状态、任务、周期实例、日历、每日总结、断点历史、Checklist、设置/模块、备份导入导出、重启持久化。
-   - 运行：`dotnet build tests\SimWorkbench.SmokeTest\SimWorkbench.SmokeTest.csproj` 后执行 `tests\...\bin\Debug\net8.0\SimWorkbench.SmokeTest.exe`。
-   - 预期：`通过 92 项，失败 0 项`，退出码 0。
-
-2. **UI 端到端自检** `tools/ui-smoke.ps1`
-   - 重新生成演示数据 → 启动真实程序 → UIAutomation 点击导航/按钮/填写输入框 → 截图 → 关闭程序后用数据库校验落库结果。
-   - 覆盖：新建任务、周期规则、主题日志、清单；隐藏/恢复导航入口；停用/启用模块；明暗主题切换；重新打开后数据存在。
-   - 预期：`通过 31 项，失败 0 项`。截图输出在 `docs/ui-test/`。
-
-3. **页面截图** `tools/screenshot-pages.ps1`：自动遍历各页面并保存到 `docs/shots/`（README 使用的截图已挑选到 `docs/screenshots/`）。
-
-4. **演示数据** `tools/SeedData`：生成覆盖七种仿真状态、逾期/临期、周期实例、总结、断点历史与清单的代表性数据，便于人工验收。
+自检与辅助工具（数据层 SmokeTest、UI 自动化、SeedData 演示数据、截图脚本、发布打包脚本）保留在开发者本地环境，
+不纳入仓库；发布前由维护者执行并记录结果，验收标准见 `docs/P0_CHECKLIST.md`。
 
 ## 编码约定
 

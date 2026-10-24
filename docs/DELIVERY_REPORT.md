@@ -5,8 +5,8 @@
 | 项目 | 检查结果 | 处理 |
 | --- | --- | --- |
 | 操作系统 | Windows 11（10.0.26200），x64 | 满足 WinUI 3 要求 |
-| .NET SDK | **最初不存在**（仅有运行时 6/7/8/10） | 通过官方 `dotnet-install.ps1` 安装 **.NET 8.0.426** 到 `C:\Users\Li\.dotnet`（用户级，未改系统环境变量） |
-| Windows SDK | 已存在 `C:\Program Files (x86)\Windows Kits\10\Include\10.0.26100.0` | 配合 `Microsoft.Windows.SDK.BuildTools` NuGet 包使用 |
+| .NET SDK | **最初不存在**（仅有运行时 6/7/8/10） | 通过官方 `dotnet-install.ps1` 安装 **.NET 8.0.426**（用户级安装，未改系统环境变量） |
+| Windows SDK | 已安装 Windows SDK 10.0.26100 | 配合 `Microsoft.Windows.SDK.BuildTools` NuGet 包使用 |
 | Visual Studio | VS 2022 Community + Build Tools 已安装 | 仅作备选，实际用 `dotnet build` 构建 |
 | 网络 | 工具沙箱内 TLS 受限，外网需完整权限 | 构建/还原/推送均在有网络条件下完成 |
 | 既有项目 | 工作区中无与本需求相关的既有工程 | 从零搭建，未推翻任何现有项目 |

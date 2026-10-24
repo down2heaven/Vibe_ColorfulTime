@@ -41,11 +41,7 @@ dotnet build SimWorkbench.sln
 .\src\SimWorkbench.App\bin\x64\Debug\net8.0-windows10.0.19041.0\win-x64\SimWorkbench.exe
 ```
 
-也可用开发脚本（会自动结束旧进程、构建并启动）：
-
-```powershell
-powershell -ExecutionPolicy Bypass -File tools\dev-run.ps1
-```
+> 本地开发脚本（构建/签名/启动）保留在开发者环境，不随仓库分发。
 
 ### 数据存储位置
 
@@ -55,24 +51,8 @@ powershell -ExecutionPolicy Bypass -File tools\dev-run.ps1
 
 ## 测试
 
-```powershell
-# 1) 数据层端到端自检（92 项：状态/任务/周期/日历/总结/断点/清单/设置/备份/重启持久化）
-dotnet build tests\SimWorkbench.SmokeTest\SimWorkbench.SmokeTest.csproj
-.\tests\SimWorkbench.SmokeTest\bin\Debug\net8.0\SimWorkbench.SmokeTest.exe
-
-# 2) UI 端到端自检（31 项：通过 UI 自动化点击真实界面并用数据库校验结果）
-powershell -ExecutionPolicy Bypass -File tools\ui-smoke.ps1
-
-# 3) 生成各页面截图（需先构建并生成演示数据）
-powershell -ExecutionPolicy Bypass -File tools\screenshot-pages.ps1
-```
-
-演示数据生成：
-
-```powershell
-dotnet build tools\SeedData\SeedData.csproj
-.\tools\SeedData\bin\Debug\net8.0\SimWorkbench.SeedData.exe _testdata
-```
+自检工具（数据层 92 项、UI 自动化 31 项、演示数据生成、截图脚本）保留在开发者本地环境，不随仓库分发；
+发布前会执行并记录结果，验收标准与历史结果见 [docs/P0_CHECKLIST.md](docs/P0_CHECKLIST.md)。
 
 ## 架构
 
@@ -81,13 +61,7 @@ src/
   SimWorkbench.Core/   领域模型、服务接口、周期规则计算、默认数据（纯业务，无 UI/存储依赖）
   SimWorkbench.Data/   SQLite 架构与迁移、各业务服务实现、备份导入导出、服务组合根
   SimWorkbench.App/    WinUI 3 界面层：外壳导航、主题、页面、对话框、展示模型
-tests/
-  SimWorkbench.SmokeTest/  数据层端到端自检控制台程序
-tools/
-  SeedData/            演示数据生成器
-  dev-run.ps1          构建并启动
-  ui-smoke.ps1         UI 自动化端到端自检
-  screenshot-pages.ps1 页面截图
+
 ```
 
 界面层只通过 `SimWorkbench.Core` 中的服务接口访问业务能力，`SimWorkbench.Data` 负责实现，二者不相互引用；界面层通过 `WorkbenchServices` 组合根获得服务。详见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。

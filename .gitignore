@@ -32,3 +32,9 @@ dist/
 .pr_number
 .release_id
 .release_upload_url
+# 解压/发布测试目录
+_dist_test/
+
+# 本地开发与测试工具（不随仓库分发）
+tests/
+tools/
